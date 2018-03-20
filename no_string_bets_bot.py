@@ -153,7 +153,7 @@ blacklist_subreddits = ["bmw",
 
 subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
 for comment in subreddit.stream.comments():
-    if re.search("(I see your)( *[a-zA-Z]* *){0,10}(and raise you)", comment.body) \
+    if re.search("[^\"]+(I see your)([a-zA-Z ]*)(and raise you)([a-zA-Z ]*)[^\"]+", comment.body) \
         and not(is_summon_chain(comment)) \
         and not(comment_limit_reached(comment)) \
         and not(is_already_done(comment)) \
