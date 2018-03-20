@@ -38,7 +38,7 @@ def is_summon_chain(post):
 def comment_limit_reached(post):
   global submissioncount
   count_of_this = int(float(submissioncount[str(post.submission.id)]))
-  if count_of_this > 4:
+  if count_of_this > 4: #TODO change the number accordingly. float("inf") for infinite (Caution!)
     return True
   else:
     return False
@@ -61,8 +61,8 @@ def is_already_done(post):
   else:
     return False
 
-def is_serious_post(post):
-    if '[serious]' in post.submission.title.lower():
+def is_serious_post(submission):
+    if '[serious]' in submission.title.lower():
         return True
     else: 
         return False
@@ -78,13 +78,6 @@ def post_reply(reply,post):
     if str(e) == '403 Client Error: Forbidden':
       print(f'/r/{post.subreddit} has banned me.')
     return False
-
-def is_replying_to_blacklisted_user(post):
-    blacklist_users = ["MildBot"]
-    if post.author in blacklist_users:
-        return True
-    else:
-        return False
 
 submissioncount = collections.Counter()
 
@@ -151,11 +144,8 @@ blacklist_subreddits = ["bmw",
     "ps2ceres",
     "duelingcorner"]
 
-subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
-for comment in subreddit.stream.comments():
-    if re.search("(I see your)( *[a-zA-Z]* *){0,10}(and raise you)", comment.body) \
-        and not(is_summon_chain(comment)) \
-        and not(comment_limit_reached(comment)) \
-        and not(is_already_done(comment)) \
-        and not(is_serious_post(comment)) \
-        and not(is_replying_to_blacklisted_user(comment)): post_reply("no string bets, please!\n\n---\n^^I'm ^^a ^^bot, ^^learn ^^more ^^about ^^string ^^bets ^^[here](https://en.wiktionary.org/wiki/string_bet)", comment)
+#subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
+subreddit = r.subreddit('travisdoesmath')
+for submission in subreddit.stream.submissions():
+    if re.search("(I see your)( *[a-zA-Z]* *){0,10}(and raise you)", submission.title) \
+        and not(is_serious_post(submission)): post_reply("no string bets, please!\n\n---\n^^I'm ^^a ^^bot, ^^learn ^^more ^^about ^^string ^^bets ^^[here](https://en.wiktionary.org/wiki/string_bet)", comment)
