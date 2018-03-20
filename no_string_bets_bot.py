@@ -61,6 +61,11 @@ def is_already_done(post):
   else:
     return False
 
+def is_serious_post(post):
+    if '[serious]' in post.submission.title.lower(): return True
+    else: 
+    return False
+
 def post_reply(reply,post):
   global submissioncount
   try:
@@ -78,5 +83,7 @@ submissioncount = collections.Counter()
 subreddit = r.subreddit('travisdoesmath')
 for comment in subreddit.stream.comments():
     if re.search("(I see your)( *[a-zA-Z]* *){0,10}(and raise you)", comment.body) \
-        and not(is_summon_chain(comment)) and not(comment_limit_reached(comment)) \
-        and not(is_already_done(comment)): post_reply("no string bets, please!\n\n---\n^^I'm ^^a ^^bot, ^^learn ^^more ^^about ^^string ^^bets ^^[here](https://en.wiktionary.org/wiki/string_bet)", comment)
+        and not(is_summon_chain(comment)) \
+        and not(comment_limit_reached(comment)) \
+        and not(is_already_done(comment)) \
+        and not(is_serious_post(comment)): post_reply("no string bets, please!\n\n---\n^^I'm ^^a ^^bot, ^^learn ^^more ^^about ^^string ^^bets ^^[here](https://en.wiktionary.org/wiki/string_bet)", comment)
