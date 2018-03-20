@@ -28,7 +28,7 @@ r = praw.Reddit(user_agent='NoStringBetsBot v0.1',
 def is_summon_chain(post):
   if not post.is_root:
     parent_comment = post.parent()
-    if parent_comment.author != None and str(parent_comment.author.name) == 'no_string_bets': #TODO put your bot username here
+    if parent_comment.author != None and str(parent_comment.author.name) == 'no_string_bets':
       return True
     else:
       return False
@@ -53,7 +53,7 @@ def is_already_done(post):
     pass
   if numofr != 0:
     for repl in post.replies:
-      if repl.author != None and repl.author.name == 'no_string_bets': #TODO put your bot username here
+      if repl.author != None and repl.author.name == 'no_string_bets': 
         done = True
         continue
   if done:
@@ -81,7 +81,70 @@ def post_reply(reply,post):
 
 submissioncount = collections.Counter()
 
-subreddit = r.subreddit('travisdoesmath')
+blacklist_subreddits = ["bmw",
+    "anime", 
+    "asianamerican", 
+    "askhistorians", 
+    "askscience", 
+    "askreddit", 
+    "aww", 
+    "chicagosuburbs", 
+    "cosplay", 
+    "cumberbitches", 
+    "d3gf", 
+    "deer", 
+    "depression", 
+    "depthhub", 
+    "drinkingdollars", 
+    "forwardsfromgrandma", 
+    "geckos", 
+    "giraffes", 
+    "grindsmygears", 
+    "indianfetish", 
+    "me_irl", 
+    "misc", 
+    "movies", 
+    "mixedbreeds", 
+    "news", 
+    "newtotf2", 
+    "omaha", 
+    "petstacking", 
+    "pics", 
+    "pigs", 
+    "politicaldiscussion", 
+    "politics", 
+    "programmingcirclejerk", 
+    "raerthdev", 
+    "rants", 
+    "runningcirclejerk", 
+    "salvia", 
+    "science", 
+    "seiko", 
+    "shoplifting", 
+    "sketches", 
+    "sociopath", 
+    "suicidewatch", 
+    "talesfromtechsupport",
+    "torrent",
+    "torrents",
+    "trackers",
+    "tr4shbros", 
+    "unitedkingdom",
+    "crucibleplaybook",
+    "benfrick",
+    "bsa",
+    "futurology",
+    "graphic_design",
+    "historicalwhatif",
+    "lolgrindr",
+    "malifaux",
+    "nfl",
+    "toonami",
+    "trumpet",
+    "ps2ceres",
+    "duelingcorner"]
+
+subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
 for comment in subreddit.stream.comments():
     if re.search("(I see your)( *[a-zA-Z]* *){0,10}(and raise you)", comment.body) \
         and not(is_summon_chain(comment)) \
