@@ -5,7 +5,7 @@ Created on Tue Mar 20 03:12:22 2018
 @author: Travis
 """
 
-import collections, praw, re, warnings
+import collections, os, praw, re, warnings
 
 r = praw.Reddit(user_agent='NoStringBetsBot v0.1',
                   client_id=os.getenv("CLIENT_ID"),
