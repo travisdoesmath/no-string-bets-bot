@@ -154,7 +154,7 @@ blacklist_subreddits = ["bmw",
 subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
 for comment in subreddit.stream.comments():
     comment_outside_quotes = ' '.join(comment.body.split('"')[0::2])
-    match = re.search('(i see your)([a-zA-Z ]*)(and )?(i )?(raise you)([a-zA-Z ]*)', " " + comment_outside_quotes.lower())
+    match = re.search('(I see your)([A-Z ]*)(and )?(I )?(raise you)([A-Z ]*)', " " + comment_outside_quotes, re.IGNORECASE)
     if match \
         and not(is_summon_chain(comment)) \
         and not(comment_limit_reached(comment)) \
