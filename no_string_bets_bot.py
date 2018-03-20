@@ -62,9 +62,10 @@ def is_already_done(post):
     return False
 
 def is_serious_post(post):
-    if '[serious]' in post.submission.title.lower(): return True
+    if '[serious]' in post.submission.title.lower():
+        return True
     else: 
-    return False
+        return False
 
 def post_reply(reply,post):
   global submissioncount
