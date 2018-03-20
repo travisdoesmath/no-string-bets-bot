@@ -28,7 +28,7 @@ r = praw.Reddit(user_agent='NoStringBetsBot v0.1',
 def is_summon_chain(post):
   if not post.is_root:
     parent_comment = post.parent()
-    if parent_comment.author != None and str(parent_comment.author.name) == 'no_string_bets':
+    if parent_comment.author != None and str(parent_comment.author.name) == 'no_string_bets' or str(post.author.name) == 'no_string_bets':
       return True
     else:
       return False
@@ -153,9 +153,11 @@ blacklist_subreddits = ["bmw",
 
 subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
 for comment in subreddit.stream.comments():
-    if re.search("[^\"]+(I see your)([a-zA-Z ]*)(and )?(I )?(raise you)([a-zA-Z ]*)[^\"]+", comment.body) \
+    comment_outside_quotes = ' '.join(comment.body.split('"')[0::2])
+    match = re.search('(i see your)([a-zA-Z ]*)(and )?(i )?(raise you)([a-zA-Z ]*)', " " + comment_outside_quotes.lower())
+    if match \
         and not(is_summon_chain(comment)) \
         and not(comment_limit_reached(comment)) \
         and not(is_already_done(comment)) \
         and not(is_serious_post(comment)) \
-        and not(is_replying_to_blacklisted_user(comment)): post_reply("no string bets, please!\n\n---\n^^I'm ^^a ^^bot, ^^learn ^^more ^^about ^^string ^^bets ^^[here](https://en.wiktionary.org/wiki/string_bet)", comment)
+        and not(is_replying_to_blacklisted_user(comment)): post_reply(f"> {match.group(0)}\n\n**no string bets, please!**\n\n---\n_^(I'm a bot, learn more about string bets) ^[here](https://en.wiktionary.org/wiki/string_bet)_", comment)
