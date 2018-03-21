@@ -151,7 +151,7 @@ blacklist_subreddits = ["bmw",
     "ps2ceres",
     "duelingcorner"]
 
-subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits))
+subreddit = r.subreddit('all-' + '-'.join(blacklist_subreddits)) # This didn't seem to work, the bot still posted in /r/politics, which is on the blacklist
 for comment in subreddit.stream.comments():
     comment_outside_quotes = ' '.join(comment.body.split('"')[0::2])
     match = re.search('(I see your)([A-Z ]*)(and )?(I )?(raise you)([A-Z ]*)', " " + comment_outside_quotes, re.IGNORECASE)
@@ -160,4 +160,5 @@ for comment in subreddit.stream.comments():
         and not(comment_limit_reached(comment)) \
         and not(is_already_done(comment)) \
         and not(is_serious_post(comment)) \
-        and not(is_replying_to_blacklisted_user(comment)): post_reply(f"> {match.group(0)}\n\n**no string bets, please!**\n\n---\n_^(I'm a bot, learn more about string bets) ^[here](https://en.wiktionary.org/wiki/string_bet)_", comment)
+        and not(is_replying_to_blacklisted_user(comment)) \
+        and comment.subreddit not in blacklist_subreddits: post_reply(f"> {match.group(0)}\n\n**no string bets, please!**\n\n---\n_^(I'm a pointless bot. \"I see your X and raise you Y\" is a )^[string bet](https://en.wiktionary.org/wiki/string_bet)^(, and is not allowed at most serious poker games.)_", comment)
