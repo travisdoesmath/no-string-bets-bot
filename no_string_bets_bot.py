@@ -161,4 +161,4 @@ for comment in subreddit.stream.comments():
         and not(is_already_done(comment)) \
         and not(is_serious_post(comment)) \
         and not(is_replying_to_blacklisted_user(comment)) \
-        and comment.subreddit not in blacklist_subreddits: post_reply(f"> {match.group(0)}\n\n**no string bets, please!**\n\n---\n_^(I'm a pointless bot. \"I see your X and raise you Y\" is a string bet, and is not allowed at most serious poker games.)_", comment)
+        and comment.subreddit not in blacklist_subreddits: post_reply(f"> {match.group(0)}\n\n**no string bets, please!**\n\n---\n_^(I'm a pointless bot. "I see your X and raise you Y" is a) ^[string](https://en.wiktionary.org/wiki/string_bet) ^[bet,](https://en.wiktionary.org/wiki/string_bet) ^(and is not allowed at most serious poker games.)_", comment)
